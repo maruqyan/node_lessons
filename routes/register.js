@@ -1,15 +1,20 @@
 const express = require('express');
 const router = express.Router();
+const {isEmail,isName, isUsername, isPassowrd} = require('../Utils/index');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('register', { 
-    title: 'Register Page',
-    home:'Home',
-    galery:'Galery',
-    register:'Register',
-    login:'Login' 
-  });
-});
+router.get('/',(req,res,next) => {    
+  res.render('register');
+})
 
-module.exports = router;
+router.post('/',(req,res,next) => {    
+  if(isName(req.body.name) && isEmail(req.body.email) && isUsername(req.body.username) && isPassowrd(req.body.password,req.body.confirm )){  
+    console.log(req.body);   
+    res.redirect('login');
+  }else{
+    console.log('Invalid or uncorect data');
+    
+    res.redirect('/register');
+  }
+})
+
+module.exports = router
